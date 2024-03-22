@@ -1,8 +1,9 @@
+import Layout from "./layout/Layout";
 
 function App() {
   return (
-    <div>
-      Hello world...
+    <div className={"light"}>
+      <Layout/>
     </div>
   );
 }
