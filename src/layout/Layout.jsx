@@ -3,12 +3,12 @@ import Content from "./content/Content";
 import Sidebar from "./sidebar/Sidebar";
 import Navbar from "./navbar/Navbar";
 
-const Layout = ({setDarkMode, darkMode}) => {
+const Layout = () => {
     return (
         <div>
             <Content/>
             <Sidebar/>
-            <Navbar setDarkMode={setDarkMode} darkMode={darkMode}/>
+            <Navbar/>
         </div>
     );
 };
