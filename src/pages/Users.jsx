@@ -4,26 +4,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUsers} from "../redux/users/usersSlice";
 
 const Users = () => {
-    // const [loading, setLoading] = useState(false);
-    // const [users, setUsers] = useState([]);
 
-    const {isLoading, users, error} = useSelector(state=>state.users)
+    const {isLoading, isFetching, users, error} = useSelector(state=>state.users)
     const dispatch = useDispatch()
-    // console.log(data)
 
-    // const handleGetUsers = async ()=>{
-    //     setLoading(true)
-    //     const res = await fetch("https://jsonplaceholder.typicode.com/users");
-    //     const resData = await res.json();
-    //     setUsers(resData)
-    //     setLoading(false)
-    // }
-    //
     useEffect(()=>{
+        console.log(11)
         dispatch(getUsers())
     },[])
-    return isLoading ? (<TableLoading/>) : (
+    return isLoading ? (<TableLoading/>) : error ? (
+        <h1 className={"text-red-500"}>{error}</h1>
+    ) : (
             <div className={"w-full p-4"}>
+                {isFetching && (
+                  <span>  درحال دریافت اطلاعات</span>
+                )}
 
                 <table className={"table w-full"}>
                     <thead>

@@ -2,20 +2,14 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     isLoading: false,
+    isFetching: false,
     users : [],
     error: ''
 }
 
-export const getUsers = createAsyncThunk('user/getUsers',  ()=>{
-    return new Promise((resolve, reject)=>{
-        fetch("https://jsonplaceholder.typicode.com/users").then(res=>res.json())
-            .then(res=>{
-                setTimeout(()=>{
-                    resolve(res)
-                },10000)
-            })
-    })
-
+export const getUsers = createAsyncThunk('user/getUsers',  async ()=>{
+    const res = await fetch("https://jsonplaceholder.typicode.com/users")
+    return await res.json()
 })
 
 
@@ -24,15 +18,21 @@ const userSlice = createSlice({
     initialState,
     extraReducers: builder=>{
         builder.addCase(getUsers.pending, (state)=>{
-            state.isLoading = true
+            if (state.users.length > 0) state.isFetching = true
+            else{
+                state.isLoading = true
+                state.isFetching = true
+            }
         })
         builder.addCase(getUsers.fulfilled, (state, action)=>{
             state.isLoading = false
+            state.isFetching = false
             state.users = action.payload
             state.error = ''
         })
         builder.addCase(getUsers.rejected, (state, action)=>{
             state.isLoading = false
+            state.isFetching = false
             state.users = []
             state.error = action.error.message
         })
